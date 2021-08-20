@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
 
