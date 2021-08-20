@@ -1,3 +1,9 @@
+# Testing C# 9 Source Generators
+
+Instead of using reflection to get an Attribute from an enum member, I tried to use C# 9 Source Generators.
+
+The result is - as expected - much more performant.
+
 # Benchmark Output
 ```
 // * Summary *
