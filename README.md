@@ -2,6 +2,21 @@
 
 Instead of using reflection to get an Attribute from an enum member, I tried to use C# 9 Source Generators.
 
+The attribute is simply put atop an enum member like so:
+```csharp
+public enum Stuff {
+  [SomeString("🍯")]
+  Honey,
+  [SomeString("🦙")]
+  Llama,
+  ...
+}
+```
+and can be retrieved via extension method:
+```csharp
+Stuff.Llama.ToSomeString();
+```
+
 The result is - as expected - much more performant.
 
 # Benchmark Output
