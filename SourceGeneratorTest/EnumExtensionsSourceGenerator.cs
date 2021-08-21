@@ -23,14 +23,14 @@ namespace SourceGeneratorTest
                 .Where(node => node is EnumMemberDeclarationSyntax)
                 .Cast<EnumMemberDeclarationSyntax>())
             {
-                var emojiAttribute = enumMemberDeclarationSyntax.AttributeLists
+                var dataAttributeSyntax = enumMemberDeclarationSyntax.AttributeLists
                     .SelectMany(attributeList => attributeList.Attributes)
                     .FirstOrDefault(attribute => attribute.Name.ToString() is "SomeString" or "SomeStringAttribute");
-                if (emojiAttribute?.ArgumentList == null)
+                if (dataAttributeSyntax?.ArgumentList == null)
                     continue;
                 var parent = (EnumDeclarationSyntax)enumMemberDeclarationSyntax.Parent!;
-                var emoji = emojiAttribute.ArgumentList.Arguments.First().Expression;
-                caseBuilder.AppendLine($"{parent.Identifier}.{enumMemberDeclarationSyntax.Identifier} => {emoji},");
+                var dataValue = dataAttributeSyntax.ArgumentList.Arguments.First().Expression;
+                caseBuilder.AppendLine($"{parent.Identifier}.{enumMemberDeclarationSyntax.Identifier} => {dataValue},");
             }
 
 
