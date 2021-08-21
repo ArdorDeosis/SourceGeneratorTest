@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Model;
 
 namespace SourceGeneratorTest
 {
@@ -16,7 +15,7 @@ namespace SourceGeneratorTest
 
         public void Execute(GeneratorExecutionContext context)
         {
-            var caseBuilder = new StringBuilder("");
+            var valueMapping = new Dictionary<string, string>();
             foreach (var enumMemberDeclarationSyntax in context.Compilation.SyntaxTrees
                 .Select(tree => tree.GetRoot())
                 .SelectMany(root => root.DescendantNodesAndSelf(_ => true))
@@ -30,25 +29,32 @@ namespace SourceGeneratorTest
                     continue;
                 var parent = (EnumDeclarationSyntax)enumMemberDeclarationSyntax.Parent!;
                 var dataValue = dataAttributeSyntax.ArgumentList.Arguments.First().Expression;
-                caseBuilder.AppendLine($"{parent.Identifier}.{enumMemberDeclarationSyntax.Identifier} => {dataValue},");
+                valueMapping.Add($"{parent.Identifier}.{enumMemberDeclarationSyntax.Identifier}", dataValue.ToString());
             }
 
+            context.AddSource("testFile", $@"
+using {nameof(System)};
 
-            context.AddSource("testFile", @"
-using System;
-
-namespace Model
-{
-    public static partial class EnumExtensions
-    {
+namespace {nameof(Model)}
+{{
+    public static partial class {nameof(EnumExtensions)}
+    {{
         public static string ToSomeStringGenerated(this Enum value) => value switch
-        {
-" + caseBuilder + @"
+        {{
+{CodeGenerator.GenerateSwitchExpressionCases(valueMapping, "            ")}
             _ => throw new Exception(""No String defined!"")
-        };
-    }
-}
+        }};
+    }}
+}}
 ");
         }
+    }
+
+    public static class CodeGenerator
+    {
+        public static string GenerateSwitchExpressionCases(IDictionary<string, string> valueMapping,
+            string indentation = "") =>
+            string.Join("\n", valueMapping.Select(
+                keyValuePair => $"{indentation}{keyValuePair.Key} => {keyValuePair.Value},"));
     }
 }
