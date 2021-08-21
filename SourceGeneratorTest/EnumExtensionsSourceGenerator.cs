@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Model;
 
 namespace SourceGeneratorTest
 {
@@ -35,9 +34,9 @@ namespace SourceGeneratorTest
             context.AddSource("testFile", $@"
 using {nameof(System)};
 
-namespace {nameof(Model)}
+namespace Model
 {{
-    public static partial class {nameof(EnumExtensions)}
+    public static partial class EnumExtensions
     {{
         public static string ToSomeStringGenerated(this Enum value) => value switch
         {{
