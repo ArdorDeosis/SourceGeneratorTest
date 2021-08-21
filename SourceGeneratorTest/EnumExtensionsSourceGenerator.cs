@@ -41,7 +41,7 @@ namespace Model
         public static string ToSomeStringGenerated(this Enum value) => value switch
         {{
 {CodeGenerator.GenerateSwitchExpressionCases(valueMapping, "            ")}
-            _ => throw new Exception(""No String defined!"")
+            _ => ""No String defined!""
         }};
     }}
 }}
