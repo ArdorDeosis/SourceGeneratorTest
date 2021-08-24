@@ -6,7 +6,7 @@ namespace Model
     public static partial class EnumExtensions
     {
         public static string ToSomeStringWithReflection(this Enum value) =>
-            value.GetAttribute<SomeStringAttribute>()?.Emoji ?? throw new Exception("No String defined!");
+            value.GetAttribute<SomeStringAttribute>()?.SomeString ?? throw new Exception("No String defined!");
 
         private static T? GetAttribute<T>(this Enum enumValue) where T : Attribute
         {

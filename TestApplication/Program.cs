@@ -1,6 +1,8 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Model;
+using SourceCodeBuilding;
 
 namespace TestApplication
 {
@@ -8,12 +10,20 @@ namespace TestApplication
     {
         private static void Main()
         {
-            BenchmarkRunner.Run<ToEmojiBenchmark>();
+            // BenchmarkRunner.Run<EnumAttributeBenchmark>();
+
+            var builder = new SourceCodeBuilder();
+            builder.AddUsingDirective("System")
+                .OpenNamespace("FancyNamespace")
+                .OpenClass("Extensions")
+                .CloseClass()
+                .CloseNameSpace();
+            Console.WriteLine(builder);
         }
     }
 
     [MemoryDiagnoser]
-    public class ToEmojiBenchmark
+    public class EnumAttributeBenchmark
     {
 #pragma warning disable CA1822
         [Benchmark]

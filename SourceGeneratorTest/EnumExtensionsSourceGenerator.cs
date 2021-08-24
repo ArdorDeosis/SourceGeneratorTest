@@ -31,7 +31,7 @@ namespace SourceGeneratorTest
                 valueMapping.Add($"{parent.Identifier}.{enumMemberDeclarationSyntax.Identifier}", dataValue.ToString());
             }
 
-            context.AddSource("testFile", $@"
+            var sourceCode = $@"
 using {nameof(System)};
 
 namespace Model
@@ -45,7 +45,18 @@ namespace Model
         }};
     }}
 }}
-");
+";
+
+            var root = context.Compilation.SyntaxTrees.First().GetRoot();
+            var additionalSource = $@"
+/*
+
+{string.Join("\n", root.DescendantNodes().Select(x => x + "\n---"))}
+
+*/
+";
+
+            context.AddSource("EnumExtensions.Generated.cs", sourceCode + additionalSource);
         }
     }
 

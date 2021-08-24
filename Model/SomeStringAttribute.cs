@@ -5,11 +5,11 @@ namespace Model
     [AttributeUsage(AttributeTargets.Field)]
     public class SomeStringAttribute : Attribute
     {
-        public string Emoji { get; }
+        public string SomeString { get; }
         
-        public SomeStringAttribute(string emoji)
+        public SomeStringAttribute(string someString)
         {
-            Emoji = emoji;
+            SomeString = someString;
         }
     }
 }
