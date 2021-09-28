@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\SourceGeneratorTest\SourceGeneratorTest.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\SourceGeneratorTest\SourceGeneratorTest.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
